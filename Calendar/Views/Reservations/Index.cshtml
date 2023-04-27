@@ -1,0 +1,67 @@
+﻿@model IEnumerable<Calendar.Models.ViewModels.ReservationViewModel>
+
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Reservations</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ApartmentName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckInDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CheckOutDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ApartmentName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckInDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CheckOutDate)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+
+    <link href="~/lib/datepicker/dist/datepicker.min.css" rel="stylesheet" />
+    <script src="~/lib/datepicker/dist/datepicker.min.js"></script>
+    <script>const datePickerOptions = {
+            format: 'yyyy-mm-dd',
+            autoclose: true,
+            clearBtn: true,
+            todayBtn: true,
+            todayHighlight: true,
+            orientation: 'bottom'
+        };
+
+        $('#checkInDate').datepicker(datePickerOptions);
+        $('#checkOutDate').datepicker(datePickerOptions);</script>
+}

@@ -1,0 +1,56 @@
+﻿@model Calendar.Models.Reservation
+
+<h1>Create Reservation</h1>
+
+@using (Html.BeginForm())
+{
+    <div class="form-group">
+        @Html.LabelFor(model => model.ApartmentName, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.ApartmentName, new { @class = "form-control", @id = "apartmentName" })
+        @Html.ValidationMessageFor(model => model.ApartmentName, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CheckInDate, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.CheckInDate, new { @class = "form-control", @id = "check-in-date" })
+        @Html.ValidationMessageFor(model => model.CheckInDate, "", new { @class = "text-danger" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(model => model.CheckOutDate, new { @class = "control-label" })
+        @Html.TextBoxFor(model => model.CheckOutDate, new { @class = "form-control", @id = "check-out-date" })
+        @Html.ValidationMessageFor(model => model.CheckOutDate, "", new { @class = "text-danger" })
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">Save</button>
+}
+
+@section Scripts {
+    <script>$(function () {
+            var datePickerOptions = {
+                format: 'yyyy-mm-dd',
+                autoclose: true,
+                startDate: new Date()
+            };
+
+            $('#check-in-date').datepicker(datePickerOptions);
+            $('#check-out-date').datepicker(datePickerOptions);
+
+            $("#apartmentName").change(function () {
+                var apartmentName = $(this).val();
+                if (apartmentName !== "") {
+                    $.ajax({
+                        url: "/Reservations/GetApartmentName",
+                        data: { apartmentName: apartmentName },
+                        type: "GET",
+                        success: function (result) {
+                            $("#apartmentName").val(result);
+                        }
+                    });
+                } else {
+                    $("#apartmentName").val("");
+                }
+            });
+        });</script>
+}

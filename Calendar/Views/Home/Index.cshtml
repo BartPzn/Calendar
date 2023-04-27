@@ -1,0 +1,70 @@
+﻿@model Calendar.Models.ViewModels.ReservationListViewModel
+@using Calendar.Models
+@using Calendar.Models.ViewModels
+@using Microsoft.AspNetCore.Html
+@using Microsoft.AspNetCore.Mvc.Rendering
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to our Reservation System</h1>
+</div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <div id='calendar'></div>
+        </div>
+        <div class="col-md-8">
+            <h2 class="text-center">Reservations</h2>
+            <p>
+                <a asp-action="Index" asp-controller="Reservations" class="btn btn-primary">View Reservations</a>
+            </p>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Apartment Name</th>
+                        <th>Check-in Date</th>
+                        <th>Check-out Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reservation in Model.Reservations)
+                    {
+                    <tr>
+                        <td>@reservation.ApartmentName</td>
+                        <td>@reservation.CheckInDate.ToShortDateString()</td>
+                        <td>@reservation.CheckOutDate.ToShortDateString()</td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.4.0/fullcalendar.min.css" />
+
+    <script>
+        $(document).ready(function () {
+            $('#calendar').fullCalendar({
+                events: '@Url.Action("GetCalendarData", "Home")',
+                defaultView: 'month',
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,basicWeek,basicDay'
+                },
+                eventClick: function (calEvent, jsEvent, view) {
+                    window.location.href = "/Reservations/Create?start=" + calEvent.start.format('YYYY-MM-DD') + "&end=" + calEvent.end.format('YYYY-MM-DD');
+                }
+            });
+        });
+    </script>
+}

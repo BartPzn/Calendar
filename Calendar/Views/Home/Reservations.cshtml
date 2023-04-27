@@ -1,0 +1,30 @@
+﻿@model Calendar.Models.ViewModels.HomeViewModel
+
+
+@{
+    ViewData["Title"] = "Reservations";
+}
+
+<h1>Reservations</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Apartment</th>
+            <th>Check-in Date</th>
+            <th>Check-out Date</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var reservation in Model.Reservations.Reservations)
+        {
+            <tr>
+                <td>@reservation.Id</td>
+                <td>@reservation.ApartmentName</td>
+                <td>@reservation.CheckInDate.ToShortDateString()</td>
+                <td>@reservation.CheckOutDate.ToShortDateString()</td>
+            </tr>
+        }
+    </tbody>
+</table>

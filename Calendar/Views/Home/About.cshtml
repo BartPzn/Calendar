@@ -1,0 +1,31 @@
+﻿@model Calendar.Models.ViewModels.ReservationViewModel
+
+@using (Html.BeginForm("Create", "Reservations"))
+{
+    <h1>O nas</h1>
+
+
+
+    <h2>Zarezerwuj apartament</h2>
+    @Html.AntiForgeryToken()
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.ApartmentName)
+        @Html.DropDownListFor(m => m.ApartmentName, Model.Apartments.Select(a => new SelectListItem { Value = a.ApartmentName, Text = a.ApartmentName }).ToList(), "Wybierz apartament", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.ApartmentName)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CheckInDate)
+        @Html.EditorFor(m => m.CheckInDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+        @Html.ValidationMessageFor(m => m.CheckInDate)
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.CheckOutDate)
+        @Html.EditorFor(m => m.CheckOutDate, new { htmlAttributes = new { @class = "form-control datepicker" } })
+        @Html.ValidationMessageFor(m => m.CheckOutDate)
+    </div>
+
+    <button type="submit" class="btn btn-primary">Zarezerwuj</button>
+}
